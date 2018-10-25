@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Arduino Disketten Orchester</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="icon" type="image/png" href="static/img/BläkTrön_WebLogo.png" />
+  </head>
+  <body>
+    <h1 align="center">Bl&#x0101;cktr&#x014d;n</h1>
+
+    <hr id="upload"/>
+    <h2>Hier kannst du neue Midis hochladen</h2>
+    <form action="../upload" method=post enctype=multipart/form-data>
+      <span class="regular">Midi Datei:</span> <input type="file" name="file">
+      <button name="submit" type="submit">Upload</button>
+    </form>
+
+    {% if upload == 'succsess'%}
+      <p class="succsess">Die Datei wurde erfolgreich hochladen</p>
+    {% else %}
+      {% if upload == 'error'%}
+        <p class="error">Die Datei konnte nicht hochladen werden</p>
+      {% endif %}
+    {% endif %}
+
+    <hr id="write"/>
+    <h2>Hier kannst du auswählen, welches Lied gespielt werden soll</h2>
+    <form action="../write" method="post">
+      <select name="midi">
+        <option value="" selected="selected">Bitte w&aumlhlen</option>
+        {% for file in files %}
+          <option value="{{ file.filename }}">{{ file.name }}</option>
+        {% endfor %}
+      </select>
+      <button name="submit" type="submit">Auf Player laden</button>
+    </form>
+
+    {% if upload == 'playing' %}
+        <p class="succsess">Die Datei wird gespielt</p>
+    {% endif %}
+
+    {% if not_existent %}
+        <p class="nothing">Diese Funktion existiert noch nicht...</p>
+    {% endif %}
+  </body>
+</html>
